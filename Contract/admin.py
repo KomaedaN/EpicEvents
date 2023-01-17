@@ -1,4 +1,9 @@
 from django.contrib import admin
 from Contract.models import Contract
 
-admin.site.register(Contract)
+
+class ContractAdmin(admin.ModelAdmin):
+    list_display = ('id', 'status', 'client')
+
+
+admin.site.register(Contract, ContractAdmin)

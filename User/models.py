@@ -16,4 +16,4 @@ class User(AbstractUser):
     first_name = models.CharField(max_length=25)
     last_name = models.CharField(max_length=25)
     email = models.EmailField(unique=True)
-    team = models.ForeignKey(to=Team, on_delete=models.CASCADE)
+    team = models.ForeignKey(to=Team, on_delete=models.CASCADE, null=True)
