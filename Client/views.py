@@ -6,21 +6,19 @@ from rest_framework.permissions import IsAuthenticated
 from Client.models import Client
 from Client.serializers import ClientSerializer
 from Client.permissions import ClientPermission
+from Event.models import Event
 
 
 class ClientViewset(ModelViewSet):
     serializer_class = ClientSerializer
-
     permission_classes = [IsAuthenticated, ClientPermission]
 
     def get_queryset(self):
-        return Client.objects.all()
+        current_user = self.request.user
+        if current_user.groups.filter(name='sales').exists() is True:
+            return Client.objects.filter(sales_contact=current_user)
 
-    def perform_create(self, serializer):
-        serializer.save()
-
-    def perform_update(self, serializer):
-        serializer.save()
-
-    def perform_destroy(self, instance):
-        instance.delete()
+        elif current_user.groups.filter(name='support').exists() is True:
+            events = Event.objects.filter(support_contact=current_user)
+            clients_queryset = events.values_list('client', flat=True).distinct()
+            return Client.objects.filter(id__in=clients_queryset)

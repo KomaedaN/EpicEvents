@@ -11,7 +11,6 @@ from Contract.serializers import ContractSerializer
 
 class ContractViewset(ModelViewSet):
     serializer_class = ContractSerializer
-
     permission_classes = [IsAuthenticated]
 
     def get_queryset(self):
@@ -22,9 +21,4 @@ class ContractViewset(ModelViewSet):
         current_client = self.kwargs['client_pk']
         client_id = Client.objects.get(pk=current_client)
         additional_data = {'client': client_id, 'sales_contact': current_user}
-        serializer.save(**additional_data)
-
-    def perform_update(self, serializer):
-        current_user = self.request.user
-        additional_data = {'sales_contact': current_user}
         serializer.save(**additional_data)

@@ -41,8 +41,8 @@ class Migration(migrations.Migration):
                 (
                     "sales_contact",
                     models.ForeignKey(
-                        null=True,
-                        on_delete=django.db.models.deletion.SET_NULL,
+
+                        on_delete=django.db.models.deletion.PROTECT,
                         to=settings.AUTH_USER_MODEL,
                     ),
                 ),
