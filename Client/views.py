@@ -22,3 +22,8 @@ class ClientViewset(ModelViewSet):
             events = Event.objects.filter(support_contact=current_user)
             clients_queryset = events.values_list('client', flat=True).distinct()
             return Client.objects.filter(id__in=clients_queryset)
+
+    def perform_create(self, serializer):
+        current_user = self.request.user
+        additional_data = {'sales_contact': current_user}
+        serializer.save(**additional_data)

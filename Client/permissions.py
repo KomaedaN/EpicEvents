@@ -24,7 +24,3 @@ class ClientPermission(BasePermission):
                 return True
             else:
                 raise PermissionDenied(detail='Only Sales team is allowed here')
-
-
-"""<QuerySet [<Client: Client object (1)>, <Client: Client object (2)>, <Client: Client object (3)>]>
-"""
