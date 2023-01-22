@@ -11,7 +11,7 @@ class EventStatus(models.Model):
 
 
 class Event(models.Model):
-    client = models.OneToOneField(to=Client, on_delete=models.PROTECT)
+    client = models.ForeignKey(to=Client, on_delete=models.PROTECT)
     contract = models.ForeignKey(to=Contract, on_delete=models.CASCADE)
     event_status = models.ForeignKey(to=EventStatus, on_delete=models.PROTECT)
     date_created = models.DateTimeField(auto_now_add=True)

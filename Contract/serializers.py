@@ -6,5 +6,5 @@ class ContractSerializer(ModelSerializer):
     class Meta:
         model = Contract
         fields = "__all__"
-        read_only_fields = ['id', 'date_created', 'date_updated', 'client']
+        read_only_fields = ['id', 'date_created', 'date_updated', 'client', 'contract']
         extra_kwargs = {'sales_contact': {'required': False}}
