@@ -3,6 +3,8 @@ from rest_framework.viewsets import ModelViewSet
 from rest_framework.response import Response
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.exceptions import ValidationError
+from django_filters.rest_framework import DjangoFilterBackend
+from rest_framework.filters import SearchFilter
 
 from Event.models import Event, EventStatus
 from Event.serializers import EventSerializer, EventStatusSerializer
@@ -16,6 +18,9 @@ from User.models import User
 class EventViewset(ModelViewSet):
     serializer_class = EventSerializer
     permission_classes = [IsAuthenticated, EventPermission]
+    filter_backends = [DjangoFilterBackend, SearchFilter]
+    filterset_fields = ['client__last_name', 'client__email', 'event_date']
+    search_fields = ['client__last_name', 'client__email', 'event_date']
 
     def get_queryset(self):
         return Event.objects.filter(contract=self.kwargs['contract_pk'], support_contact=self.request.user)

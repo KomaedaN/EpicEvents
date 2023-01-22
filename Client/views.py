@@ -2,6 +2,8 @@ from django.shortcuts import render
 from rest_framework.viewsets import ModelViewSet
 from rest_framework.response import Response
 from rest_framework.permissions import IsAuthenticated
+from django_filters.rest_framework import DjangoFilterBackend
+from rest_framework.filters import SearchFilter
 
 from Client.models import Client
 from Client.serializers import ClientSerializer
@@ -12,6 +14,9 @@ from Event.models import Event
 class ClientViewset(ModelViewSet):
     serializer_class = ClientSerializer
     permission_classes = [IsAuthenticated, ClientPermission]
+    filter_backends = [DjangoFilterBackend, SearchFilter]
+    filterset_fields = ['last_name', 'email']
+    search_fields = ['last_name', 'email']
 
     def get_queryset(self):
         current_user = self.request.user
