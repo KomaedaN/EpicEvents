@@ -1,7 +1,7 @@
 from rest_framework.permissions import BasePermission
 from rest_framework.exceptions import PermissionDenied
 from Event.models import Event
-from User.models import User, Team
+from User.models import User
 
 
 class EventPermission(BasePermission):

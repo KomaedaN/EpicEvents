@@ -1,7 +1,7 @@
 from rest_framework.permissions import BasePermission
 from rest_framework.exceptions import PermissionDenied
 from Client.models import Client
-from User.models import User, Team
+from User.models import User
 from rest_framework.response import Response
 
 
