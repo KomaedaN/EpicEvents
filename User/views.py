@@ -14,3 +14,4 @@ class SignupViewset(viewsets.ModelViewSet):
     def get_queryset(self):
         return User.objects.filter(username=self.request.user)
 
+
