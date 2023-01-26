@@ -20,6 +20,5 @@
 - go to Users and add "Groups" (sales and support)
 - now you can assign this group for users 
 
-# EpicEvent Permissions 
-- Client :
-      
+# EpicEvent Permissions and Postman documentation 
+- you can see all endpoints and permission here : https://documenter.getpostman.com/view/17797877/2s8ZDd1Lde
