@@ -13,12 +13,8 @@ router = routers.SimpleRouter()
 router.register('signup', SignupViewset, basename='signup')
 router.register('clients', ClientViewset, basename="clients")
 router.register('event_status', EventStatusViewset, basename='event_status')
-
-client_router = routers.NestedSimpleRouter(router, r'clients', lookup='client')
-client_router.register(r'contract', ContractViewset, basename='contract')
-
-contract_router = routers.NestedSimpleRouter(client_router, r'contract', lookup='contract')
-contract_router.register(r'event', EventViewset, basename='event')
+router.register('contract', ContractViewset, basename='contract')
+router.register('event', EventViewset, basename='event')
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -26,6 +22,4 @@ urlpatterns = [
     path('token/', TokenObtainPairView.as_view(), name='login'),
     path('login/refresh/', TokenRefreshView.as_view(), name='token_refresh'),
     path('', include(router.urls)),
-    path('', include(client_router.urls)),
-    path('', include(contract_router.urls)),
 ]

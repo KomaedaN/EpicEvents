@@ -20,17 +20,9 @@ class ContractViewset(ModelViewSet):
     search_fields = ['client__last_name', 'client__email', 'date_created', 'amount']
 
     def get_queryset(self):
-        return Contract.objects.filter(client=self.kwargs['client_pk'], sales_contact=self.request.user)
+        return Contract.objects.filter(sales_contact=self.request.user)
 
     def perform_create(self, serializer):
         current_user = self.request.user
-        current_client = self.kwargs['client_pk']
-        client_id = Client.objects.get(pk=current_client)
-        additional_data = {'client': client_id, 'sales_contact': current_user, 'status': True}
-        serializer.save(**additional_data)
-
-    def perform_update(self, serializer):
-        current_client = self.kwargs['client_pk']
-        client_id = Client.objects.get(pk=current_client)
-        additional_data = {'client': client_id}
+        additional_data = {'sales_contact': current_user, 'status': True}
         serializer.save(**additional_data)

@@ -23,15 +23,14 @@ class EventViewset(ModelViewSet):
     search_fields = ['client__last_name', 'client__email', 'event_date']
 
     def get_queryset(self):
-        return Event.objects.filter(contract=self.kwargs['contract_pk'], support_contact=self.request.user)
+        return Event.objects.filter(support_contact=self.request.user)
 
     def perform_create(self, serializer):
         support_contact_entry = serializer.validated_data.get('support_contact')
         support_group = User.objects.get(username=support_contact_entry).groups.filter(name='support').exists()
         if support_group is True:
-            client_id = Client.objects.get(pk=self.kwargs['client_pk'])
-            contract_id = Contract.objects.get(pk=self.kwargs['contract_pk'])
-            additional_data = {'client': client_id, 'contract': contract_id}
+            client_id = serializer.validated_data['contract'].client
+            additional_data = {'client': client_id}
             serializer.save(**additional_data)
         else:
             raise ValidationError({'Support contact': "You can't assign this User as 'support_contact'"})
@@ -40,9 +39,8 @@ class EventViewset(ModelViewSet):
         support_contact_entry = serializer.validated_data.get('support_contact')
         support_group = User.objects.get(username=support_contact_entry).groups.filter(name='support').exists()
         if support_group is True:
-            client_id = Client.objects.get(pk=self.kwargs['client_pk'])
-            contract_id = Contract.objects.get(pk=self.kwargs['contract_pk'])
-            additional_data = {'client': client_id, 'contract': contract_id}
+            client_id = serializer.validated_data['contract'].client
+            additional_data = {'client': client_id}
             serializer.save(**additional_data)
 
         else:
